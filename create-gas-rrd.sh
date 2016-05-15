@@ -1,0 +1,6 @@
+#!/bin/sh
+rrdtool create gasm3.rrd -s 1 \
+DS:M3:GAUGE:300:0:6000000 \
+RRA:AVERAGE:.5:60:4320 \
+RRA:AVERAGE:.5:3600:8880 \
+RRA:AVERAGE:.5:86400:3650

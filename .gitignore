@@ -1,0 +1,9 @@
+*.o
+*.ko
+*.so
+*.rrd
+*.xml
+*.png
+*.tgz
+*.gz
+

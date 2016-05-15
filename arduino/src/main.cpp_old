@@ -1,0 +1,50 @@
+#include <WProgram.h>
+#include <inttypes.h>
+
+#define MS_PER_HOUR    3.6e6
+
+int cycles_per_kwh = 100;
+int max_watt = 6000;
+
+unsigned long previous = 0;
+unsigned long cycle = 0;
+
+boolean last = LOW;
+
+
+void kwhChange() {
+    unsigned long now = millis();
+    unsigned long time = now - previous;
+
+    if (cycle == 0) {
+        cycle++;
+        return;
+    }
+
+    digitalWrite(13,last);
+
+    previous = now; 
+
+    double W = 1000 * ((double) MS_PER_HOUR / time) / cycles_per_kwh;
+    Serial.print("Cycle ");
+    Serial.print(cycle, DEC);
+    Serial.print(": ");
+    Serial.print(time, DEC);
+    Serial.print(" ms, ");
+    Serial.print(W, 2);
+    Serial.println(" W");
+    cycle++;
+    if (last) last = LOW;
+    else last = HIGH;
+}
+
+void setup () {
+  Serial.begin(57600);
+  pinMode(13, OUTPUT);
+  attachInterrupt(0, kwhChange, FALLING);
+  Serial.println("Bitlair power monitor starting");
+}
+
+void loop () {
+
+}
